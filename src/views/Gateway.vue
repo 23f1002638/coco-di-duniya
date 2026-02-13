@@ -3,10 +3,16 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import confetti from 'canvas-confetti'
 import { useMouse, useWindowSize } from '@vueuse/core'
+import gsap from 'gsap'
 
 const router = useRouter()
 const { x, y } = useMouse()
 const { width, height } = useWindowSize()
+
+// Refs for Animation
+const arzRef = ref(null)
+const mainTextRef = ref(null)
+const buttonsRef = ref(null)
 
 // Parallax Logic
 const cardTransform = computed(() => {
@@ -31,8 +37,10 @@ const handleYes = () => {
     colors: ['#FFD700', '#FF4D6D', '#FFF5F7'] // Gold and Pink
   })
   setTimeout(() => {
-    router.push('/hub')
-  }, 1000)
+    // Animate out
+    gsap.to('.content', { scale: 1.5, opacity: 0, duration: 0.8, ease: 'power2.in' })
+    setTimeout(() => router.push('/hub'), 800)
+  }, 500)
 }
 
 const handleNoHover = (e) => {
@@ -71,6 +79,7 @@ const handleTimeClick = () => {
 
 // Sparkles Logic
 const sparkles = ref([])
+
 onMounted(() => {
     // Generate sparkles
     sparkles.value = Array.from({ length: 30 }, (_, i) => ({
@@ -81,6 +90,29 @@ onMounted(() => {
         delay: Math.random() * 5,
         duration: Math.random() * 3 + 2
     }))
+
+    // Cinematic Entrance
+    const tl = gsap.timeline()
+    
+    tl.from(arzRef.value, { 
+        y: -30, 
+        opacity: 0, 
+        duration: 1, 
+        ease: "power3.out" 
+    })
+    .from(mainTextRef.value, { 
+        scale: 0.9, 
+        opacity: 0, 
+        duration: 1.2, 
+        ease: "elastic.out(1, 0.6)" 
+    }, "-=0.5")
+    .from(buttonsRef.value.children, { 
+        y: 20, 
+        opacity: 0, 
+        stagger: 0.2, 
+        duration: 0.8, 
+        ease: "back.out(1.7)" 
+    }, "-=0.8")
 })
 </script>
 
@@ -107,11 +139,13 @@ onMounted(() => {
     
     <div class="content glass-card" :style="cardTransform">
       <h1 class="header-text">
-        <span class="arz-kiya">Arz kiya hai...</span> <br/>
-        <span class="glow">Romans ka empire tha<br/> <span class="highlight-byzantine">Byzantine</span>... <br/><br/> Will you be my<br/> <span class="highlight-pink">Valentine?</span> 👉🏻👈🏻</span>
+        <span ref="arzRef" class="arz-kiya">Arz kiya hai...</span> <br/>
+        <span ref="mainTextRef" class="main-text-wrapper">
+            <span class="glow">Romans ka empire tha<br/> <span class="highlight-byzantine">Byzantine</span>... <br/><br/> Will you be my<br/> <span class="highlight-pink">Valentine?</span> 👉🏻👈🏻</span>
+        </span>
       </h1>
 
-      <div class="button-group">
+      <div class="button-group" ref="buttonsRef">
         <button class="btn yes-btn" @click="handleYes">
             <span class="btn-shine"></span>
             YES 💖
@@ -227,6 +261,11 @@ onMounted(() => {
     font-size: 1.5rem;
     font-style: italic;
     opacity: 0.9;
+    display: inline-block; /* For animations */
+}
+
+.main-text-wrapper {
+    display: inline-block; /* For animations */
 }
 
 .glow {
