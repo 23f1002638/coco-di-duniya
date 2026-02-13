@@ -1,16 +1,61 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { Lock, Ticket, Feather, Sparkles } from 'lucide-vue-next'
+import gsap from 'gsap'
 
 const router = useRouter()
 
 const navigateTo = (route) => {
   router.push(route)
 }
+
+// Floating Waffles Logic
+const waffles = ref([])
+onMounted(() => {
+  // Create 15 waffles
+  waffles.value = Array.from({ length: 15 }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100, // vw
+    y: Math.random() * 100, // vh
+    size: Math.random() * 30 + 20, // px
+    duration: Math.random() * 10 + 10, // s
+    delay: Math.random() * 5
+  }))
+
+  // Animate them
+  waffles.value.forEach((w) => {
+    gsap.to(`#waffle-${w.id}`, {
+      y: '-=120vh', // Move up
+      rotation: 360,
+      duration: w.duration,
+      delay: w.delay,
+      repeat: -1,
+      ease: 'linear'
+    })
+  })
+})
 </script>
 
 <template>
   <div class="hub-container">
+    <!-- Floating Waffles Background -->
+    <div class="waffles-bg">
+        <div 
+            v-for="w in waffles" 
+            :key="w.id" 
+            :id="`waffle-${w.id}`"
+            class="waffle"
+            :style="{ 
+                left: w.x + 'vw', 
+                top: w.y + 'vh', 
+                fontSize: w.size + 'px' 
+            }"
+        >
+            🧇
+        </div>
+    </div>
+
     <h1 class="hub-title">Welcome to Coco's World 🌍</h1>
     
     <div class="card-grid">
@@ -51,6 +96,24 @@ const navigateTo = (route) => {
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.waffles-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Let clicks pass through */
+    z-index: 0;
+}
+
+.waffle {
+    position: absolute;
+    opacity: 0.6;
+    filter: drop-shadow(0 0 5px rgba(0,0,0,0.1));
 }
 
 .hub-title {
@@ -59,6 +122,7 @@ const navigateTo = (route) => {
   margin-bottom: 3rem;
   font-size: 3rem;
   text-shadow: 0 2px 10px rgba(255, 77, 109, 0.2);
+  z-index: 10;
 }
 
 .card-grid {
@@ -66,6 +130,7 @@ const navigateTo = (route) => {
   gap: 2rem;
   flex-wrap: wrap;
   justify-content: center;
+  z-index: 10;
 }
 
 .card {

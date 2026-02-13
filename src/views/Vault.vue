@@ -286,8 +286,9 @@ const closeExpanded = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 245, 247, 0.9);
-  backdrop-filter: blur(20px);
+  background: radial-gradient(circle at center, rgba(255, 245, 247, 0.4) 0%, rgba(255, 228, 232, 0.8) 100%);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -296,19 +297,22 @@ const closeExpanded = () => {
 }
 
 .input-display {
-  background: rgba(255, 255, 255, 0.5);
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  border-radius: 15px;
-  padding: 1rem 2rem;
-  font-size: 2rem;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 1.5rem 2.5rem;
+  font-size: 2.5rem;
   letter-spacing: 0.5rem;
-  min-height: 4rem;
+  min-height: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
-  width: 300px;
+  margin-bottom: 3rem;
+  width: 320px;
+  color: #ff4d6d;
 }
 
 .placeholder {
