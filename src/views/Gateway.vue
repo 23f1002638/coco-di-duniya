@@ -108,7 +108,7 @@ onMounted(() => {
     <div class="content glass-card" :style="cardTransform">
       <h1 class="header-text">
         <span class="arz-kiya">Arz kiya hai...</span> <br/>
-        <span class="glow">Romans ka empire tha<br/> <span class="highlight-gold">Byzantine</span>... <br/><br/> Will you be my<br/> <span class="highlight-pink">Valentine?</span> 👉🏻👈🏻</span>
+        <span class="glow">Romans ka empire tha<br/> <span class="highlight-byzantine">Byzantine</span>... <br/><br/> Will you be my<br/> <span class="highlight-pink">Valentine?</span> 👉🏻👈🏻</span>
       </h1>
 
       <div class="button-group">
@@ -233,9 +233,14 @@ onMounted(() => {
   text-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
 }
 
-.highlight-gold {
-    color: #FFD700;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+.highlight-byzantine {
+    /* Royal Purple Gradient for that Imperial feel */
+    background: linear-gradient(135deg, #4B0082 0%, #8A2BE2 50%, #9400D3 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: bold;
+    filter: drop-shadow(0 0 5px rgba(138, 43, 226, 0.5));
 }
 
 .highlight-pink {
